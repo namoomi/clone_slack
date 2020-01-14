@@ -1,0 +1,9 @@
+Type Message {
+id: Int!
+nickname: String!
+contents: String!
+innerChannel: Channel!
+innerChannelId:Int!
+createAt:String!
+updateAt:String
+}
