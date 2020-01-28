@@ -8,7 +8,7 @@ class Channel extends BaseEntity{
     id:number;
 
     @Column({type:"text", nullable:false})
-    chnnelNickName:string;
+    channelName:string;
 
     @OneToMany(type => Message,
                 message => message.innerChannel)

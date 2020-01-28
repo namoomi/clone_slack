@@ -1,6 +1,16 @@
+type createChannelResponse {
+  ok: Boolean!
+  error: String
+}
+
+type Mutation {
+  createChannel(channelName: String!): createChannelResponse
+  SendMessage(nickname: String!, contents: String!, thumbnail: String!, innerChannelId: Int!): SendMessageResponse!
+}
+
 type Channel {
   id: Int!
-  chnnelNickName: String!
+  channelName: String!
   messages: [Message]
   createdAt: String!
   updatedAt: String
@@ -14,6 +24,11 @@ type GetMessagesResponse {
 
 type Query {
   GetMessages(innerChannelId: Int!): GetMessagesResponse!
+}
+
+type SendMessageResponse {
+  ok: Boolean!
+  error: String
 }
 
 type Message {

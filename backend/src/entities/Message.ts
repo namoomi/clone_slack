@@ -9,6 +9,10 @@ class Message extends BaseEntity{
     @Column({type:"text",nullable:false})
     nickname:string;
 
+    
+    @Column({type:"text",nullable:false})
+    thumbnail:string;
+
     @Column({type:"text",nullable:false})
     contents:string;
 
