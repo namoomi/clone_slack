@@ -1,4 +1,4 @@
-export const typeDefs = ["type createChannelResponse {\n  ok: Boolean!\n  error: String\n}\n\ntype Mutation {\n  createChannel(channelName: String!): createChannelResponse\n  SendMessage(nickname: String!, contents: String!, thumbnail: String!, innerChannelId: Int!): SendMessageResponse!\n}\n\ntype Channel {\n  id: Int!\n  channelName: String!\n  messages: [Message]\n  createdAt: String!\n  updatedAt: String\n}\n\ntype GetMessagesResponse {\n  ok: Boolean!\n  error: String\n  messages: [Message]\n}\n\ntype Query {\n  GetMessages(innerChannelId: Int!): GetMessagesResponse!\n}\n\ntype SendMessageResponse {\n  ok: Boolean!\n  error: String\n}\n\ntype Message {\n  id: Int!\n  nickname: String!\n  contents: String!\n  innerChannel: Channel!\n  innerChannelId: Int!\n  createAt: String!\n  updateAt: String\n}\n"];
+export const typeDefs = ["type createChannelResponse {\n  ok: Boolean!\n  error: String\n}\n\ntype Mutation {\n  createChannel(channelName: String!): createChannelResponse\n  modifyChannel(id: Int!, channelName: String!): modifyChannelResponse\n  modifyMessage(id: Int!, contents: String!): modifyMessageResponse\n  SendMessage(nickname: String!, contents: String!, thumbnail: String!, innerChannelId: Int!): SendMessageResponse!\n}\n\ntype modifyChannelResponse {\n  ok: Boolean!\n  error: String\n  changedName: String\n}\n\ntype Channel {\n  id: Int!\n  channelName: String!\n  messages: [Message]\n  createdAt: String!\n  updatedAt: String\n}\n\ntype GetMessagesResponse {\n  ok: Boolean!\n  error: String\n  messages: [Message]\n}\n\ntype Query {\n  GetMessages(innerChannelId: Int!): GetMessagesResponse!\n}\n\ntype modifyMessageResponse {\n  ok: Boolean!\n  error: String\n}\n\ntype SendMessageResponse {\n  ok: Boolean!\n  error: String\n}\n\ntype Message {\n  id: Int!\n  nickname: String!\n  contents: String!\n  innerChannel: Channel!\n  innerChannelId: Int!\n  createAt: String!\n  updateAt: String\n}\n"];
 /* tslint:disable */
 
 export interface Query {
@@ -35,11 +35,23 @@ export interface Channel {
 
 export interface Mutation {
   createChannel: createChannelResponse | null;
+  modifyChannel: modifyChannelResponse | null;
+  modifyMessage: modifyMessageResponse | null;
   SendMessage: SendMessageResponse;
 }
 
 export interface CreateChannelMutationArgs {
   channelName: string;
+}
+
+export interface ModifyChannelMutationArgs {
+  id: number;
+  channelName: string;
+}
+
+export interface ModifyMessageMutationArgs {
+  id: number;
+  contents: string;
 }
 
 export interface SendMessageMutationArgs {
@@ -50,6 +62,17 @@ export interface SendMessageMutationArgs {
 }
 
 export interface createChannelResponse {
+  ok: boolean;
+  error: string | null;
+}
+
+export interface modifyChannelResponse {
+  ok: boolean;
+  error: string | null;
+  changedName: string | null;
+}
+
+export interface modifyMessageResponse {
   ok: boolean;
   error: string | null;
 }

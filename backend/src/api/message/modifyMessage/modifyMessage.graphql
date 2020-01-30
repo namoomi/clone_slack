@@ -1,0 +1,11 @@
+type modifyMessageResponse {
+    ok:Boolean!
+    error:String
+}
+
+type Mutation{
+    modifyMessage(
+        id:Int!
+        contents:String!
+    ):modifyMessageResponse
+}
