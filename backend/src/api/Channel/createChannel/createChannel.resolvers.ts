@@ -1,9 +1,10 @@
 import { Resolvers } from "src/types/resolver";
 import {CreateChannelMutationArgs, createChannelResponse} from "../../../../src/types/graphql";
 import Channel from "../../../../src/entities/Channel";
+
 const resolvers:Resolvers={
     Mutation: {
-        createChannel:async(_, args:CreateChannelMutationArgs):Promise<createChannelResponse>=> {
+        createChannel:async(_, args:CreateChannelMutationArgs,{pubSub}):Promise<createChannelResponse>=> {
             try {
                 const { channelName } = args;
                 const existChannel = await Channel.findOne({channelName});
@@ -16,9 +17,13 @@ const resolvers:Resolvers={
                     }
                 }
                 
-                await Channel.create({
+                const newChannel = await Channel.create({
                     channelName
                 }).save();
+
+                pubSub.publish("newChannel",{
+                    CreateChannelSubscription:newChannel
+                })
 
                 return {
                     ok:true

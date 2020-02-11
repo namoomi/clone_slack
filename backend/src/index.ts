@@ -1,4 +1,5 @@
-import { GraphQLServer } from "graphql-yoga";
+import { GraphQLServer, PubSub } from "graphql-yoga";
+//pubSub :  graphql의웹소켓 
 import connnection from "./ormConfig";
 import schema from './schema';
 
@@ -22,7 +23,8 @@ const server = new GraphQLServer({typeDefs, resolvers});
 
 */
 
-const server = new GraphQLServer({schema});
+const pubSub = new PubSub();
+const server = new GraphQLServer({schema, context:{pubSub} });
     
 connnection.then(()=>(
     server.start(()=> console.log("My First Graphql server is running on location"))

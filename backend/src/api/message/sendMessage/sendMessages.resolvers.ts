@@ -5,7 +5,7 @@ import Message from "../../../../src/entities/Message";
 
 const resolver: Resolvers = {
     Mutation : {
-        SendMessage:async(_,args:SendMessageMutationArgs):Promise<SendMessageResponse> => {
+        SendMessage:async(_,args:SendMessageMutationArgs,{pubSub}):Promise<SendMessageResponse> => {
             try{
                 const {nickname, contents,thumbnail, innerChannelId} = args;
 
@@ -17,13 +17,17 @@ const resolver: Resolvers = {
                     }; 
                 }
             
-                await Message.create({
+              const newMessage =   await Message.create({
                     nickname,
                     thumbnail,
                     contents,
                     innerChannelId
                 }).save();
                 
+                pubSub.publish("newMessage",{
+                   SendMessageSubscription:newMessage 
+                });
+
                 return {
                     ok:true,
                     error:null

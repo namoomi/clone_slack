@@ -1,0 +1,10 @@
+type getChannelResponse {
+    ok : Boolean!
+    error : String,
+    channels : [Channel]
+}
+
+
+type Query {
+    getChannel:getChannelResponse
+}
